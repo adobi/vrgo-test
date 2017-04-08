@@ -21,19 +21,36 @@ class $
 
 class App
 {
+  constructor(rootElement)
+  {
+    this.rootElement = rootElement;
+    this.repositoryList = new RepositoryList($.find('#js-repository-list'), 'addyosmani')
+  }
+
+  run()
+  {
+    this.repositoryList.fetchPage()
+  }
+
+  static getRepositoryList()
+  {
+    return this.repositoryList;
+  }
+}
+
+class RepositoryList
+{
   constructor(rootElement, username)
   {
     this.rootElement = rootElement;
     this.username = username;
+
     this.githubApi = new GithubApi();
     this.repositories = [];
-    this.pager = new Pager($.find('#js-pagination'));
-  }
 
-  run ()
-  {
+    this.pager = new Pager($.find('#js-pagination'));
+
     this.bindEvents();
-    this.fetchPage()
   }
 
   fetchPage()
@@ -47,6 +64,7 @@ class App
       .then((response) => {
         this.repositories = response;
         this.renderRepositoryList(this.getRepositoryListTemplate());
+
         this.pager.last = this.githubApi.lastPage;
         this.pager.render();
       });
@@ -64,7 +82,7 @@ class App
 
   renderRepositoryList(template)
   {
-    $.find('#js-repository-list', this.rootElement).innerHTML = template
+    this.rootElement.innerHTML = template
   }
 
   getListLoadingTemplate()
@@ -82,25 +100,6 @@ class App
         case 'js-repository-item':
           console.log(el.dataset.repoId);
           break;
-        case 'js-prev-page':
-          if (this.pager.current > 1) {
-            this.pager.current = this.pager.current - 1;
-            this.pager.activate();
-            this.fetchPage();
-          }
-          break;
-        case 'js-next-page':
-          if (this.pager.current < this.pager.last) {
-            this.pager.current = this.pager.current + 1;
-            this.pager.activate();
-            this.fetchPage();
-          }
-          break;
-        case 'js-page':
-          this.pager.current = el.dataset.page;
-          this.pager.activate();
-          this.fetchPage();
-          break;
       }
 
       e.preventDefault();
@@ -116,6 +115,10 @@ class Pager
     this._last = 0;
     this._current = 1;
     this.isRendered = false;
+
+    this.bindEvents();
+
+    this.repositoryList = App.getRepositoryList();
   }
 
   set last(last)
@@ -132,6 +135,7 @@ class Pager
   set current(current)
   {
     this._current = current;
+    this.activate();
   }
 
   get current()
@@ -163,6 +167,35 @@ class Pager
     }
     $.toggleClass($.find(`[data-page="${this.current}"]`).parentNode, 'active')
   }
+
+  bindEvents()
+  {
+    this.rootElement.addEventListener('click', (e) => {
+      let el = e.target;
+      let src = el.dataset.src;
+
+      switch(src) {
+        case 'js-prev-page':
+          if (this.current > 1) {
+            this.current = this.current - 1;
+            this.repositoryList.fetchPage();
+          }
+          break;
+        case 'js-next-page':
+          if (this.current < this.last) {
+            this.current = this.current + 1;
+            this.repositoryList.fetchPage();
+          }
+          break;
+        case 'js-page':
+          this.current = el.dataset.page;
+          this.repositoryList.fetchPage();
+          break;
+      }
+
+      e.preventDefault();
+    })
+  }
 }
 
 class GithubApi
@@ -175,30 +208,28 @@ class GithubApi
 
   getUserRepos(username, currentPage)
   {
-
-    let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
+    // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
+    let endpoint = `data.json`;
 
     return fetch(endpoint)
       .then((response) => {
-        this.lastPage = this.parseLinkHeader(response.headers.get('Link'));
+        this.lastPage = this.getLastPage(response.headers.get('Link'));
         return response.json();
       })
   }
 
-  parseLinkHeader(header)
+  getLastPage(header)
   {
+    if (!header) {
+      return 0;
+    }
     let token = header.split(', ')[1].split('>; ')[0].split('page=')[1].split('&')[0];
     return token;
   }
 }
 
-function alma(response)
-{
-  console.log(response)
-}
-
 (() => {
-  let app = new App($.find('#js-app'), 'addyosmani');
+  let app = new App($.find('#js-app'));
 
   app.run();
 })();
