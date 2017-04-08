@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -128,7 +128,7 @@ var _utils = __webpack_require__(0);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _githubApi = __webpack_require__(5);
+var _githubApi = __webpack_require__(6);
 
 var _githubApi2 = _interopRequireDefault(_githubApi);
 
@@ -423,6 +423,12 @@ exports.default = App;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -446,6 +452,8 @@ var _utils2 = _interopRequireDefault(_utils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+__webpack_require__(4);
+
 var app = new _app2.default(_utils2.default.find('#js-app'));
 
 var repositoryList = new _repositoryList2.default(_utils2.default.find('#js-repository-list'), 'addyosmani');
@@ -454,7 +462,7 @@ var pager = new _pager2.default();
 app.run(repositoryList);
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -507,3 +515,4 @@ exports.default = GithubApi;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=bundle.js.map

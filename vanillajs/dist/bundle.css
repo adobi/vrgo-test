@@ -481,7 +481,7 @@ blockquote footer, blockquote small, blockquote .small {
   color: #777; }
 
 blockquote footer:before, blockquote small:before, blockquote .small:before {
-  content: '\2014 \00A0'; }
+  content: '\2014   \A0'; }
 
 .blockquote-reverse, blockquote.pull-right {
   padding-right: 15px;
@@ -494,7 +494,7 @@ blockquote footer:before, blockquote small:before, blockquote .small:before {
   content: ''; }
 
 .blockquote-reverse footer:after, blockquote.pull-right footer:after, .blockquote-reverse small:after, blockquote.pull-right small:after, .blockquote-reverse .small:after, blockquote.pull-right .small:after {
-  content: '\00A0 \2014'; }
+  content: '\A0   \2014'; }
 
 address {
   margin-bottom: 20px;
@@ -1832,4 +1832,6 @@ a.list-group-item-danger.active, button.list-group-item-danger.active, a.list-gr
     display: none !important; } }
 
 h1 {
-  color: red; }
+  color: black; }
+
+/*# sourceMappingURL=bundle.css.map*/

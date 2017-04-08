@@ -3,12 +3,13 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractSass = new ExtractTextPlugin({
-  filename: "./dist/bundle.css",
+  filename: "bundle.css",
 });
 
 module.exports = {
   context: __dirname,
   entry: './scripts/bootstrap.js',
+  devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
     publicPath: '/dist/',
