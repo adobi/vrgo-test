@@ -1,0 +1,11 @@
+{
+  "name": "vanillajs",
+  "version": "0.0.1",
+  "devDependencies": {
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "scripts": {
+    "build": "node_moduled/.bin/webpack"
+  }
+}
