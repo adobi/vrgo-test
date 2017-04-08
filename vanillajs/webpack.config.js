@@ -1,4 +1,10 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+  filename: "./dist/bundle.css",
+});
 
 module.exports = {
   context: __dirname,
@@ -23,7 +29,17 @@ module.exports = {
             presets: ['env']
           }
         }
+      },
+      {
+        test: /\.scss$/,
+        use: extractSass.extract({
+          use: ['css-loader', 'sass-loader'],
+          fallback: "style-loader"
+        })
       }
     ]
-  }
+  },
+  plugins: [
+    extractSass
+  ]
 };
