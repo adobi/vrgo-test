@@ -1,6 +1,11 @@
 import App from './app';
+import RepositoryList from './repository-list';
+import Pager from './pager';
 import $ from './utils';
 
 let app = new App($.find('#js-app'));
 
-app.run();
+let repositoryList = new RepositoryList($.find('#js-repository-list'), 'addyosmani')
+let pager = new Pager()
+
+app.run(repositoryList);

@@ -6,22 +6,24 @@ class RepositoryList
 {
   constructor(rootElement, username)
   {
-    this.rootElement = rootElement;
+    RepositoryList.rootElement = rootElement;
     this.username = username;
 
     this.githubApi = new GithubApi();
     this.repositories = [];
-
-    this.pager = new Pager($.find('#js-pagination'));
-
     this.bindEvents();
   }
 
-  fetchPage()
+  static getRoot()
+  {
+    return this.rootElement;
+  }
+
+  fetchPage(page)
   {
     this.renderRepositoryList(this.getListLoadingTemplate());
     this.githubApi
-      .getUserRepos(this.username, this.pager.current)
+      .getUserRepos(this.username, page)
       .catch((error) => {
         console.log(error);
       })
@@ -29,8 +31,7 @@ class RepositoryList
         this.repositories = response;
         this.renderRepositoryList(this.getRepositoryListTemplate());
 
-        this.pager.last = this.githubApi.lastPage;
-        this.pager.render();
+        Pager.rootElement.dispatchEvent(new CustomEvent('render', {detail: {page: this.githubApi.lastPage}}));
       });
   }
 
@@ -46,7 +47,7 @@ class RepositoryList
 
   renderRepositoryList(template)
   {
-    this.rootElement.innerHTML = template
+    RepositoryList.rootElement.innerHTML = template
   }
 
   getListLoadingTemplate()
@@ -56,7 +57,9 @@ class RepositoryList
 
   bindEvents()
   {
-    this.rootElement.addEventListener('click', (e) => {
+    let el = RepositoryList.rootElement;
+
+    el.addEventListener('click', (e) => {
       let el = e.target;
       let src = el.dataset.src;
 
@@ -68,6 +71,10 @@ class RepositoryList
 
       e.preventDefault();
     })
+
+    el.addEventListener('fetch-page', (e) => {
+      this.fetchPage(e.detail.page)
+    }, false)
   }
 }
 

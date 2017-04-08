@@ -1,17 +1,15 @@
 import $ from './utils';
-import App from './app';
+import RepositoryList from './repository-list'
+
 class Pager
 {
-  constructor(rootElement)
+  constructor()
   {
-    this.rootElement = rootElement;
+    Pager.rootElement = $.find('#js-pagination');
     this._last = 0;
     this._current = 1;
     this.isRendered = false;
-
     this.bindEvents();
-
-    this.repositoryList = App.getRepositoryList();
   }
 
   set last(last)
@@ -29,11 +27,17 @@ class Pager
   {
     this._current = current;
     this.activate();
+    RepositoryList.getRoot().dispatchEvent(new CustomEvent('fetch-page', {detail: {page: this.current}}));
   }
 
   get current()
   {
     return this._current;
+  }
+
+  static getRoot()
+  {
+    return Pager.rootElement;
   }
 
   render()
@@ -48,46 +52,50 @@ class Pager
     }
     template.push('<li><a href="#" data-src="js-next-page">Next</a></li>');
 
-    $.find('#js-pagination').innerHTML = template.join('')
+    Pager.rootElement.innerHTML = template.join('')
     this.isRendered = true;
   }
 
   activate()
   {
-    let prev = $.find('.active', this.rootElement);
+    let prev = $.find('.active', Pager.rootElement);
     if (prev) {
-      $.toggleClass($.find('.active', this.rootElement), 'active');
+      $.toggleClass($.find('.active', Pager.rootElement), 'active');
     }
-    $.toggleClass($.find(`[data-page="${this.current}"]`).parentNode, 'active')
+    $.toggleClass($.find(`[data-page="${this.current}"]`, Pager.rootElement).parentNode, 'active')
   }
 
   bindEvents()
   {
-    this.rootElement.addEventListener('click', (e) => {
+    let el = Pager.rootElement;
+
+    el.addEventListener('click', (e) => {
       let el = e.target;
       let src = el.dataset.src;
-
       switch(src) {
         case 'js-prev-page':
           if (this.current > 1) {
             this.current = this.current - 1;
-            this.repositoryList.fetchPage();
           }
           break;
         case 'js-next-page':
           if (this.current < this.last) {
             this.current = this.current + 1;
-            this.repositoryList.fetchPage();
           }
           break;
         case 'js-page':
           this.current = el.dataset.page;
-          this.repositoryList.fetchPage();
           break;
       }
 
       e.preventDefault();
     })
+
+
+    el.addEventListener('render', (e) => {
+      this.last = e.detail.page;
+      this.render();
+    }, false)
   }
 }
 

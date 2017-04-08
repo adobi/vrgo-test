@@ -2,6 +2,9 @@
   "name": "vanillajs",
   "version": "0.0.1",
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.3.3",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },

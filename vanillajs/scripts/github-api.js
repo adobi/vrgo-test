@@ -21,7 +21,7 @@ class GithubApi
   getLastPage(header)
   {
     if (!header) {
-      return 0;
+      return 10;
     }
     let token = header.split(', ')[1].split('>; ')[0].split('page=')[1].split('&')[0];
     return token;

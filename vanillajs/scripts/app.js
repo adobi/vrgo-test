@@ -6,17 +6,19 @@ class App
   constructor(rootElement)
   {
     this.rootElement = rootElement;
-    this.repositoryList = new RepositoryList($.find('#js-repository-list'), 'addyosmani')
   }
 
-  run()
+
+  run(repositoryList)
   {
-    this.repositoryList.fetchPage()
+    App.repositoryList = repositoryList;
+
+    App.repositoryList.fetchPage(1)
   }
 
   static getRepositoryList()
   {
-    return this.repositoryList;
+    return App.repositoryList;
   }
 }
 
