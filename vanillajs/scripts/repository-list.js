@@ -14,11 +14,6 @@ class RepositoryList
     this.bindEvents();
   }
 
-  static getRoot()
-  {
-    return this.rootElement;
-  }
-
   fetchPage(page)
   {
     this.renderRepositoryList(this.getListLoadingTemplate());
@@ -27,12 +22,14 @@ class RepositoryList
       .catch((error) => {
         console.log(error);
       })
-      .then((response) => {
-        this.repositories = response;
-        this.renderRepositoryList(this.getRepositoryListTemplate());
+      .then((response) => this.onFetchPageCompleted(response));
+  }
 
-        Pager.rootElement.dispatchEvent(new CustomEvent('render', {detail: {page: this.githubApi.lastPage}}));
-      });
+  onFetchPageCompleted(response) {
+    this.repositories = response;
+    this.renderRepositoryList(this.getRepositoryListTemplate());
+
+    Pager.rootElement.dispatchEvent(new CustomEvent('render', {detail: {page: this.githubApi.lastPage}}));
   }
 
   getRepositoryListTemplate()

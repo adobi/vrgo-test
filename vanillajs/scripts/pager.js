@@ -27,17 +27,12 @@ class Pager
   {
     this._current = current;
     this.activate();
-    RepositoryList.getRoot().dispatchEvent(new CustomEvent('fetch-page', {detail: {page: this.current}}));
+    RepositoryList.rootElement.dispatchEvent(new CustomEvent('fetch-page', {detail: {page: this.current}}));
   }
 
   get current()
   {
     return this._current;
-  }
-
-  static getRoot()
-  {
-    return Pager.rootElement;
   }
 
   render()
@@ -62,6 +57,7 @@ class Pager
     if (prev) {
       $.toggleClass($.find('.active', Pager.rootElement), 'active');
     }
+    console.log(this.current)
     $.toggleClass($.find(`[data-page="${this.current}"]`, Pager.rootElement).parentNode, 'active')
   }
 
@@ -75,12 +71,12 @@ class Pager
       switch(src) {
         case 'js-prev-page':
           if (this.current > 1) {
-            this.current = this.current - 1;
+            this.current = +this.current - 1;
           }
           break;
         case 'js-next-page':
           if (this.current < this.last) {
-            this.current = this.current + 1;
+            this.current = +this.current + 1;
           }
           break;
         case 'js-page':

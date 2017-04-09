@@ -161,11 +161,16 @@ var RepositoryList = function () {
       this.githubApi.getUserRepos(this.username, page).catch(function (error) {
         console.log(error);
       }).then(function (response) {
-        _this.repositories = response;
-        _this.renderRepositoryList(_this.getRepositoryListTemplate());
-
-        _pager2.default.rootElement.dispatchEvent(new CustomEvent('render', { detail: { page: _this.githubApi.lastPage } }));
+        return _this.onFetchPageCompleted(response);
       });
+    }
+  }, {
+    key: 'onFetchPageCompleted',
+    value: function onFetchPageCompleted(response) {
+      this.repositories = response;
+      this.renderRepositoryList(this.getRepositoryListTemplate());
+
+      _pager2.default.rootElement.dispatchEvent(new CustomEvent('render', { detail: { page: this.githubApi.lastPage } }));
     }
   }, {
     key: 'getRepositoryListTemplate',
@@ -231,11 +236,6 @@ var RepositoryList = function () {
       el.addEventListener('fetch-page', function (e) {
         _this2.fetchPage(e.detail.page);
       }, false);
-    }
-  }], [{
-    key: 'getRoot',
-    value: function getRoot() {
-      return this.rootElement;
     }
   }]);
 
@@ -303,6 +303,7 @@ var Pager = function () {
       if (prev) {
         _utils2.default.toggleClass(_utils2.default.find('.active', Pager.rootElement), 'active');
       }
+      console.log(this.current);
       _utils2.default.toggleClass(_utils2.default.find('[data-page="' + this.current + '"]', Pager.rootElement).parentNode, 'active');
     }
   }, {
@@ -318,12 +319,12 @@ var Pager = function () {
         switch (src) {
           case 'js-prev-page':
             if (_this.current > 1) {
-              _this.current = _this.current - 1;
+              _this.current = +_this.current - 1;
             }
             break;
           case 'js-next-page':
             if (_this.current < _this.last) {
-              _this.current = _this.current + 1;
+              _this.current = +_this.current + 1;
             }
             break;
           case 'js-page':
@@ -353,15 +354,10 @@ var Pager = function () {
     set: function set(current) {
       this._current = current;
       this.activate();
-      _repositoryList2.default.getRoot().dispatchEvent(new CustomEvent('fetch-page', { detail: { page: this.current } }));
+      _repositoryList2.default.rootElement.dispatchEvent(new CustomEvent('fetch-page', { detail: { page: this.current } }));
     },
     get: function get() {
       return this._current;
-    }
-  }], [{
-    key: 'getRoot',
-    value: function getRoot() {
-      return Pager.rootElement;
     }
   }]);
 
@@ -405,14 +401,7 @@ var App = function () {
   _createClass(App, [{
     key: 'run',
     value: function run(repositoryList) {
-      App.repositoryList = repositoryList;
-
-      App.repositoryList.fetchPage(1);
-    }
-  }], [{
-    key: 'getRepositoryList',
-    value: function getRepositoryList() {
-      return App.repositoryList;
+      repositoryList.fetchPage(1);
     }
   }]);
 

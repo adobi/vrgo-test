@@ -11,14 +11,7 @@ class App
 
   run(repositoryList)
   {
-    App.repositoryList = repositoryList;
-
-    App.repositoryList.fetchPage(1)
-  }
-
-  static getRepositoryList()
-  {
-    return App.repositoryList;
+    repositoryList.fetchPage(1)
   }
 }
 
