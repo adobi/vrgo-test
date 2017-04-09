@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 
 import { AppState } from '../app.service';
+import {Github} from "../services/github";
 
 @Component({
   // The selector is what angular internally uses
@@ -24,11 +25,17 @@ export class HomeComponent implements OnInit {
   // TypeScript public modifiers
   constructor(
     public appState: AppState,
+    public github: Github
   ) {}
 
   public ngOnInit() {
     console.log('hello `Home` component');
     // this.title.getData().subscribe(data => this.data = data);
+    console.log(this.github);
+
+    this.github.getUserRepos('adobi', 1).then((response: any) => {
+      console.log(response);
+    });
   }
 
   public submitState(value: string) {

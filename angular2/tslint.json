@@ -14,7 +14,8 @@
     // "component-selector": [true, "element", "my", "kebab-case"],
     "directive-class-suffix": true,
     // "directive-selector": [true, "attribute", "my", "camelCase"],
-    "import-destructuring-spacing": true,
+    "import-destructuring-spacing": false,
+    "import-spacing": false,
     "invoke-injectable": true,
     "no-access-missing-member": true,
     "no-attribute-parameter-decorator": true,
@@ -42,11 +43,8 @@
     "no-use-before-declare": true,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": [
-      true,
-      "single",
-      "avoid-escape"
-    ],
+    "one-line": false,
+    "quotemark": false,
     "variable-name": [
       true,
       "allow-leading-underscore",

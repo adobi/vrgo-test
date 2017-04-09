@@ -1,0 +1,23 @@
+
+
+.pagination {
+  margin-bottom: 10px;
+  display: inline-block;
+  padding-left: 0;
+  li {
+    display: inline;
+    &.active a {
+      @include active-item();
+    }
+    a {
+      float:left;
+      padding: 5px 10px;
+      color: $primary-color;
+      border: 1px solid $border-color;
+      text-decoration: none;
+      &:hover, &:focus, &.active {
+        @include active-item();
+      }
+    }
+  }
+}
