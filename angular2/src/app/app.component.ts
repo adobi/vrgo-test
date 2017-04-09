@@ -22,8 +22,6 @@ import { AppState } from './app.service';
     <main>
       <router-outlet></router-outlet>
     </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
   `
 })
 export class AppComponent implements OnInit {

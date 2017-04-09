@@ -1,5 +1,7 @@
 <div>
   <h1>Repository list</h1>
 
-
+  <div class="list-group">
+    <a *ngFor="let item of repositories" [routerLink]="['/repository', item.name]" class="list-group-item">{{item.name}}</a>
+  </div>
 </div>
