@@ -1,0 +1,16 @@
+.repo-details {
+  width: 400px;
+  border: 1px solid $border-color;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+
+  .repo-name {
+    margin-top: 0;
+  }
+  .actions {
+    .btn + .btn {
+      margin-left: 10px;
+    }
+  }
+}

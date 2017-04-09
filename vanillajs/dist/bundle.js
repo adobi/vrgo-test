@@ -241,7 +241,9 @@ var RepositoryList = function () {
             break;
         }
 
-        e.preventDefault();
+        if (src) {
+          e.preventDefault();
+        }
       });
 
       el.addEventListener('fetch-page', function (e) {
@@ -357,7 +359,9 @@ var Pager = function () {
             break;
         }
 
-        e.preventDefault();
+        if (src) {
+          e.preventDefault();
+        }
       });
 
       el.addEventListener('render', function (e) {
@@ -584,7 +588,7 @@ var RepositoryDetails = function () {
   _createClass(RepositoryDetails, [{
     key: 'render',
     value: function render(repo) {
-      var template = '<a href="#" class="btn btn-default" data-src="js-back-to-list">Back</a>\n      <h1>' + repo.name + '</h1>\n      <h6>Stars: ' + repo.stargazers_count + ' Forks: ' + repo.forks_count + ' Last update: ' + repo.updated_at + '</h6>\n      <p>' + repo.description + '</p>\n      <a href="' + repo.html_url + '">View on github</a><a href="' + repo.download_url + '">Download</a>\n    ';
+      var template = '<nav class="nav-back"><a href="#" class="btn" data-src="js-back-to-list">Back</a></nav>\n      <div class="repo-details">\n        <h1 class="repo-name">' + repo.name + '</h1>\n        <div class="details"><span class="label">Stars: ' + repo.stargazers_count + '</span> <span class="label">Forks: ' + repo.forks_count + '</span> <span class="label">Last update: ' + repo.updated_at.split('T')[0] + '</span></div>\n        <p>' + repo.description + '</p>\n        <div class="actions"><a class="btn" href="' + repo.html_url + '">View on github</a><a class="btn" href="' + repo.downloads_url + '">Download</a></div>\n      </div>\n    ';
 
       this.rootElement.innerHTML = template;
     }
@@ -606,7 +610,9 @@ var RepositoryDetails = function () {
             break;
         }
 
-        e.preventDefault();
+        if (src) {
+          e.preventDefault();
+        }
       });
 
       el.addEventListener('fetch-page', function (e) {

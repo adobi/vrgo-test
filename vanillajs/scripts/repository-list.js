@@ -71,7 +71,9 @@ class RepositoryList
           break;
       }
 
-      e.preventDefault();
+      if (src) {
+        e.preventDefault();
+      }
     })
 
     el.addEventListener('fetch-page', (e) => {

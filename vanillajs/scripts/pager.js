@@ -83,7 +83,9 @@ class Pager
           break;
       }
 
-      e.preventDefault();
+      if (src) {
+        e.preventDefault();
+      }
     })
 
 

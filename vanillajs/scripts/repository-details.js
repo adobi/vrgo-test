@@ -12,11 +12,13 @@ class RepositoryDetails
 
   render(repo)
   {
-    let template = `<a href="#" class="btn btn-default" data-src="js-back-to-list">Back</a>
-      <h1>${repo.name}</h1>
-      <h6>Stars: ${repo.stargazers_count} Forks: ${repo.forks_count} Last update: ${repo.updated_at}</h6>
-      <p>${repo.description}</p>
-      <a href="${repo.html_url}">View on github</a><a href="${repo.download_url}">Download</a>
+    let template = `<nav class="nav-back"><a href="#" class="btn" data-src="js-back-to-list">Back</a></nav>
+      <div class="repo-details">
+        <h1 class="repo-name">${repo.name}</h1>
+        <div class="details"><span class="label">Stars: ${repo.stargazers_count}</span> <span class="label">Forks: ${repo.forks_count}</span> <span class="label">Last update: ${repo.updated_at.split('T')[0]}</span></div>
+        <p>${repo.description}</p>
+        <div class="actions"><a class="btn" href="${repo.html_url}">View on github</a><a class="btn" href="${repo.downloads_url}">Download</a></div>
+      </div>
     `;
 
     this.rootElement.innerHTML = template;
@@ -33,11 +35,13 @@ class RepositoryDetails
       switch(src) {
         case 'js-back-to-list':
 
-          App.showPage('repo-list')
+          App.showPage('repo-list');
           break;
       }
 
-      e.preventDefault();
+      if (src) {
+        e.preventDefault();
+      }
     })
 
     el.addEventListener('fetch-page', (e) => {
