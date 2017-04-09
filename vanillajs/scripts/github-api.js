@@ -8,8 +8,8 @@ class GithubApi
 
   getUserRepos(username, currentPage)
   {
-    // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
-    let endpoint = `data.json`;
+    let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
+    // let endpoint = `data.json`;
 
     return fetch(endpoint)
       .then((response) => {

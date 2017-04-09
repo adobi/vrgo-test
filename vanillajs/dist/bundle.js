@@ -515,8 +515,8 @@ var GithubApi = function () {
     value: function getUserRepos(username, currentPage) {
       var _this = this;
 
-      // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
-      var endpoint = 'data.json';
+      var endpoint = this.apiBase + '/users/' + username + '/repos?page=' + currentPage;
+      // let endpoint = `data.json`;
 
       return fetch(endpoint).then(function (response) {
         _this.lastPage = _this.getLastPage(response.headers.get('Link'));
@@ -588,7 +588,7 @@ var RepositoryDetails = function () {
   _createClass(RepositoryDetails, [{
     key: 'render',
     value: function render(repo) {
-      var template = '<nav class="nav-back"><a href="#" class="btn" data-src="js-back-to-list">Back</a></nav>\n      <div class="repo-details">\n        <h1 class="repo-name">' + repo.name + '</h1>\n        <div class="details"><span class="label">Stars: ' + repo.stargazers_count + '</span> <span class="label">Forks: ' + repo.forks_count + '</span> <span class="label">Last update: ' + repo.updated_at.split('T')[0] + '</span></div>\n        <p>' + repo.description + '</p>\n        <div class="actions"><a class="btn" href="' + repo.html_url + '">View on github</a><a class="btn" href="' + repo.downloads_url + '">Download</a></div>\n      </div>\n    ';
+      var template = '<nav class="nav-back"><a href="#" class="btn" data-src="js-back-to-list">Back</a></nav>\n      <div class="repo-details">\n        <h1 class="repo-name">' + repo.name + '</h1>\n        <div class="details"><span class="label">Stars: ' + repo.stargazers_count + '</span> <span class="label">Forks: ' + repo.forks_count + '</span> <span class="label">Last update: ' + repo.updated_at.split('T')[0] + '</span></div>\n        <p>' + repo.description + '</p>\n        <div class="actions"><a class="btn" href="' + repo.html_url + '" target="_blank">View on github</a><a class="btn" href="' + repo.downloads_url + '" target="_blank">Download</a></div>\n      </div>\n    ';
 
       this.rootElement.innerHTML = template;
     }
