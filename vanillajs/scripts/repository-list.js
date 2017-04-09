@@ -1,6 +1,8 @@
 import $ from './utils';
 import GithubApi from './github-api';
 import Pager from './pager';
+import App from './app';
+import RepositoryDetails from './repository-details';
 
 class RepositoryList
 {
@@ -10,6 +12,9 @@ class RepositoryList
     this.username = username;
 
     this.githubApi = new GithubApi();
+
+    this.repositoryDetails =  new RepositoryDetails($.find('#js-repository-details-page'));
+
     this.repositories = [];
     this.bindEvents();
   }
@@ -62,7 +67,7 @@ class RepositoryList
 
       switch(src) {
         case 'js-repository-item':
-          console.log(el.dataset.repoId);
+          this.onRepositoryItemClicked(+el.dataset.repoId)
           break;
       }
 
@@ -72,6 +77,21 @@ class RepositoryList
     el.addEventListener('fetch-page', (e) => {
       this.fetchPage(e.detail.page)
     }, false)
+  }
+
+  onRepositoryItemClicked(repoId)
+  {
+    let repo = this.findRepo(repoId);
+    this.repositoryDetails.render(repo)
+
+    App.showPage('repo-details')
+  }
+
+  findRepo(id)
+  {
+    return this.repositories.filter((item) => {
+      return item.id === id;
+    })[0]
   }
 }
 

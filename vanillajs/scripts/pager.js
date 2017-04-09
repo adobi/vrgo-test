@@ -57,7 +57,6 @@ class Pager
     if (prev) {
       $.toggleClass($.find('.active', Pager.rootElement), 'active');
     }
-    console.log(this.current)
     $.toggleClass($.find(`[data-page="${this.current}"]`, Pager.rootElement).parentNode, 'active')
   }
 

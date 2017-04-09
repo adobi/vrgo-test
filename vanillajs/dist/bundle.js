@@ -136,6 +136,14 @@ var _pager = __webpack_require__(2);
 
 var _pager2 = _interopRequireDefault(_pager);
 
+var _app = __webpack_require__(3);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _repositoryDetails = __webpack_require__(16);
+
+var _repositoryDetails2 = _interopRequireDefault(_repositoryDetails);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -148,6 +156,9 @@ var RepositoryList = function () {
     this.username = username;
 
     this.githubApi = new _githubApi2.default();
+
+    this.repositoryDetails = new _repositoryDetails2.default(_utils2.default.find('#js-repository-details-page'));
+
     this.repositories = [];
     this.bindEvents();
   }
@@ -226,7 +237,7 @@ var RepositoryList = function () {
 
         switch (src) {
           case 'js-repository-item':
-            console.log(el.dataset.repoId);
+            _this2.onRepositoryItemClicked(+el.dataset.repoId);
             break;
         }
 
@@ -236,6 +247,21 @@ var RepositoryList = function () {
       el.addEventListener('fetch-page', function (e) {
         _this2.fetchPage(e.detail.page);
       }, false);
+    }
+  }, {
+    key: 'onRepositoryItemClicked',
+    value: function onRepositoryItemClicked(repoId) {
+      var repo = this.findRepo(repoId);
+      this.repositoryDetails.render(repo);
+
+      _app2.default.showPage('repo-details');
+    }
+  }, {
+    key: 'findRepo',
+    value: function findRepo(id) {
+      return this.repositories.filter(function (item) {
+        return item.id === id;
+      })[0];
     }
   }]);
 
@@ -303,7 +329,6 @@ var Pager = function () {
       if (prev) {
         _utils2.default.toggleClass(_utils2.default.find('.active', Pager.rootElement), 'active');
       }
-      console.log(this.current);
       _utils2.default.toggleClass(_utils2.default.find('[data-page="' + this.current + '"]', Pager.rootElement).parentNode, 'active');
     }
   }, {
@@ -379,10 +404,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _repositoryList = __webpack_require__(1);
-
-var _repositoryList2 = _interopRequireDefault(_repositoryList);
-
 var _utils = __webpack_require__(0);
 
 var _utils2 = _interopRequireDefault(_utils);
@@ -402,6 +423,18 @@ var App = function () {
     key: 'run',
     value: function run(repositoryList) {
       repositoryList.fetchPage(1);
+    }
+  }], [{
+    key: 'showPage',
+    value: function showPage(page) {
+      switch (page) {
+        case 'repo-list':
+        case 'repo-details':
+          _utils2.default.toggleClass(_utils2.default.find('#js-repository-list-page'), 'hide');
+          _utils2.default.toggleClass(_utils2.default.find('#js-repository-details-page'), 'hide');
+
+          break;
+      }
     }
   }]);
 
@@ -501,6 +534,91 @@ var GithubApi = function () {
 }();
 
 exports.default = GithubApi;
+
+/***/ }),
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = __webpack_require__(0);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+var _repositoryList = __webpack_require__(1);
+
+var _repositoryList2 = _interopRequireDefault(_repositoryList);
+
+var _app = __webpack_require__(3);
+
+var _app2 = _interopRequireDefault(_app);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RepositoryDetails = function () {
+  function RepositoryDetails(rootElement) {
+    _classCallCheck(this, RepositoryDetails);
+
+    this.rootElement = rootElement;
+    this.bindEvents();
+  }
+
+  _createClass(RepositoryDetails, [{
+    key: 'render',
+    value: function render(repo) {
+      var template = '<a href="#" class="btn btn-default" data-src="js-back-to-list">Back</a>\n      <h1>' + repo.name + '</h1>\n      <h6>Stars: ' + repo.stargazers_count + ' Forks: ' + repo.forks_count + ' Last update: ' + repo.updated_at + '</h6>\n      <p>' + repo.description + '</p>\n      <a href="' + repo.html_url + '">View on github</a><a href="' + repo.download_url + '">Download</a>\n    ';
+
+      this.rootElement.innerHTML = template;
+    }
+  }, {
+    key: 'bindEvents',
+    value: function bindEvents() {
+      var _this = this;
+
+      var el = this.rootElement;
+
+      el.addEventListener('click', function (e) {
+        var el = e.target;
+        var src = el.dataset.src;
+
+        switch (src) {
+          case 'js-back-to-list':
+
+            _app2.default.showPage('repo-list');
+            break;
+        }
+
+        e.preventDefault();
+      });
+
+      el.addEventListener('fetch-page', function (e) {
+        _this.fetchPage(e.detail.page);
+      }, false);
+    }
+  }]);
+
+  return RepositoryDetails;
+}();
+
+exports.default = RepositoryDetails;
 
 /***/ })
 /******/ ]);
