@@ -17,7 +17,7 @@ class RepositoryDetails
         <h1 class="repo-name">${repo.name}</h1>
         <div class="details"><span class="label">Stars: ${repo.stargazers_count}</span> <span class="label">Forks: ${repo.forks_count}</span> <span class="label">Last update: ${repo.updated_at.split('T')[0]}</span></div>
         <p>${repo.description}</p>
-        <div class="actions"><a class="btn" href="${repo.html_url}" target="_blank">View on github</a><a class="btn" href="${repo.downloads_url}" target="_blank">Download</a></div>
+        <div class="actions"><a class="btn" href="${repo.html_url}" target="_blank">View on github</a></div>
       </div>
     `;
 

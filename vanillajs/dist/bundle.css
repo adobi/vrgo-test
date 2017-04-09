@@ -208,7 +208,8 @@ th {
     margin: 10px;
     border: 1px solid #ddd;
     padding: 10px;
-    border-radius: 5px; }
+    border-radius: 5px;
+    text-align: center; }
 
 .repo-details {
   width: 400px;
