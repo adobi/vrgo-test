@@ -1,4 +1,3 @@
-import RepositoryList from './repository-list';
 import $ from './utils';
 
 class App
@@ -12,6 +11,18 @@ class App
   run(repositoryList)
   {
     repositoryList.fetchPage(1)
+  }
+
+  static showPage(page)
+  {
+    switch (page) {
+      case 'repo-list':
+      case 'repo-details':
+        $.toggleClass($.find('#js-repository-list-page'), 'hide')
+        $.toggleClass($.find('#js-repository-details-page'), 'hide')
+
+        break;
+    }
   }
 }
 
