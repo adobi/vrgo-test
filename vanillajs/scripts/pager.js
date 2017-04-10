@@ -36,36 +36,39 @@ class Pager
 
   render()
   {
-    if (this.isRendered) {
+    if (this.isRendered || this._last <= this._current) {
       return;
     }
 
     let template = ['<li><a href="#" data-src="js-prev-page">Prev</a></li>'];
+
     for(let i = 1; i <= this._last; i++) {
       template.push(`<li class="${i===1 ? 'active' : ''}"><a href="#" data-src="js-page" data-page="${i}">${i}</a></li>`)
     }
     template.push('<li><a href="#" data-src="js-next-page">Next</a></li>');
 
-    Pager.rootElement.innerHTML = template.join('')
+    Pager.rootElement.innerHTML = template.join('');
     this.isRendered = true;
   }
 
   activate()
   {
-    let prev = $.find('.active', Pager.rootElement);
+    const prev = $.find('.active', Pager.rootElement);
+
     if (prev) {
       $.toggleClass($.find('.active', Pager.rootElement), 'active');
     }
-    $.toggleClass($.find(`[data-page="${this.current}"]`, Pager.rootElement).parentNode, 'active')
+    $.toggleClass($.find(`[data-page="${this.current}"]`, Pager.rootElement).parentNode, 'active');
   }
 
   bindEvents()
   {
-    let el = Pager.rootElement;
+    const el = Pager.rootElement;
 
     el.addEventListener('click', (e) => {
-      let el = e.target;
-      let src = el.dataset.src;
+      const el = e.target;
+      const src = el.dataset.src;
+
       switch(src) {
         case 'js-prev-page':
           if (this.current > 1) {
@@ -85,13 +88,13 @@ class Pager
       if (src) {
         e.preventDefault();
       }
-    })
+    });
 
 
     el.addEventListener('render', (e) => {
-      this.last = e.detail.page;
+      this.last = +e.detail.page;
       this.render();
-    }, false)
+    }, false);
   }
 }
 

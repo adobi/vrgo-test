@@ -1,5 +1,3 @@
-import $ from './utils';
-import RepositoryList from './repository-list';
 import App from './app';
 
 class RepositoryDetails
@@ -25,11 +23,11 @@ class RepositoryDetails
 
   bindEvents()
   {
-    let el = RepositoryDetails.rootElement;
+    const el = RepositoryDetails.rootElement;
 
     el.addEventListener('click', (e) => {
-      let el = e.target;
-      let src = el.dataset.src;
+      const el = e.target;
+      const src = el.dataset.src;
 
       switch(src) {
         case 'js-back-to-list':
@@ -41,11 +39,7 @@ class RepositoryDetails
       if (src) {
         e.preventDefault();
       }
-    })
-
-    el.addEventListener('fetch-page', (e) => {
-      this.fetchPage(e.detail.page)
-    }, false)
+    });
   }
 }
 

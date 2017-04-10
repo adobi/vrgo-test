@@ -8,8 +8,8 @@ class GithubApi
 
   getUserRepos(username, currentPage)
   {
-    // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
-    let endpoint = `data.json`;
+    const endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
+    // const endpoint = `data.json`;
 
     return fetch(endpoint)
       .then((response) => {
@@ -23,7 +23,9 @@ class GithubApi
     if (!header) {
       return 10;
     }
-    let token = header.split(', ')[1].split('>; ')[0].split('page=')[1].split('&')[0];
+
+    const token = header.split(', ')[1].split('>; ')[0].split('page=')[1].split('&')[0];
+
     return token;
   }
 }

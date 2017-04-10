@@ -1,4 +1,3 @@
-import $ from './utils';
 import GithubApi from './github-api';
 import Pager from './pager';
 import App from './app';
@@ -59,11 +58,11 @@ class RepositoryList
 
   bindEvents()
   {
-    let el = RepositoryList.rootElement;
+    const el = RepositoryList.rootElement;
 
     el.addEventListener('click', (e) => {
-      let el = e.target;
-      let src = el.dataset.src;
+      const el = e.target;
+      const src = el.dataset.src;
 
       switch(src) {
         case 'js-repository-item':
@@ -74,17 +73,18 @@ class RepositoryList
       if (src) {
         e.preventDefault();
       }
-    })
+    });
 
     el.addEventListener('fetch-page', (e) => {
       this.fetchPage(e.detail.page)
-    }, false)
+    }, false);
   }
 
   onRepositoryItemClicked(repoId)
   {
-    let repo = this.findRepo(repoId);
-    this.repositoryDetails.render(repo)
+    const repo = this.findRepo(repoId);
+
+    this.repositoryDetails.render(repo);
 
     App.showPage('repo-details')
   }

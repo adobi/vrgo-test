@@ -179,10 +179,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = __webpack_require__(0);
-
-var _utils2 = _interopRequireDefault(_utils);
-
 var _githubApi = __webpack_require__(6);
 
 var _githubApi2 = _interopRequireDefault(_githubApi);
@@ -309,6 +305,7 @@ var RepositoryList = function () {
     key: 'onRepositoryItemClicked',
     value: function onRepositoryItemClicked(repoId) {
       var repo = this.findRepo(repoId);
+
       this.repositoryDetails.render(repo);
 
       _app2.default.showPage('repo-details');
@@ -365,11 +362,12 @@ var Pager = function () {
   _createClass(Pager, [{
     key: 'render',
     value: function render() {
-      if (this.isRendered) {
+      if (this.isRendered || this._last <= this._current) {
         return;
       }
 
       var template = ['<li><a href="#" data-src="js-prev-page">Prev</a></li>'];
+
       for (var i = 1; i <= this._last; i++) {
         template.push('<li class="' + (i === 1 ? 'active' : '') + '"><a href="#" data-src="js-page" data-page="' + i + '">' + i + '</a></li>');
       }
@@ -382,6 +380,7 @@ var Pager = function () {
     key: 'activate',
     value: function activate() {
       var prev = _utils2.default.find('.active', Pager.rootElement);
+
       if (prev) {
         _utils2.default.toggleClass(_utils2.default.find('.active', Pager.rootElement), 'active');
       }
@@ -397,6 +396,7 @@ var Pager = function () {
       el.addEventListener('click', function (e) {
         var el = e.target;
         var src = el.dataset.src;
+
         switch (src) {
           case 'js-prev-page':
             if (_this.current > 1) {
@@ -419,7 +419,7 @@ var Pager = function () {
       });
 
       el.addEventListener('render', function (e) {
-        _this.last = e.detail.page;
+        _this.last = +e.detail.page;
         _this.render();
       }, false);
     }
@@ -524,8 +524,8 @@ var GithubApi = function () {
     value: function getUserRepos(username, currentPage) {
       var _this = this;
 
-      // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
-      var endpoint = 'data.json';
+      var endpoint = this.apiBase + '/users/' + username + '/repos?page=' + currentPage;
+      // const endpoint = `data.json`;
 
       return fetch(endpoint).then(function (response) {
         _this.lastPage = _this.getLastPage(response.headers.get('Link'));
@@ -538,7 +538,9 @@ var GithubApi = function () {
       if (!header) {
         return 10;
       }
+
       var token = header.split(', ')[1].split('>; ')[0].split('page=')[1].split('&')[0];
+
       return token;
     }
   }]);
@@ -560,14 +562,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utils = __webpack_require__(0);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-var _repositoryList = __webpack_require__(2);
-
-var _repositoryList2 = _interopRequireDefault(_repositoryList);
 
 var _app = __webpack_require__(1);
 
@@ -594,8 +588,6 @@ var RepositoryDetails = function () {
   }, {
     key: 'bindEvents',
     value: function bindEvents() {
-      var _this = this;
-
       var el = RepositoryDetails.rootElement;
 
       el.addEventListener('click', function (e) {
@@ -613,10 +605,6 @@ var RepositoryDetails = function () {
           e.preventDefault();
         }
       });
-
-      el.addEventListener('fetch-page', function (e) {
-        _this.fetchPage(e.detail.page);
-      }, false);
     }
   }]);
 
