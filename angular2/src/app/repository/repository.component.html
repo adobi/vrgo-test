@@ -1,4 +1,4 @@
-<nav class="nav-back"><a [routerLink]="['/home']" class="btn">Back</a></nav>
+<nav class="nav-back"><a href="#" (click)="onBackClicked()" class="btn">Back</a></nav>
 <div class="repo-details" *ngIf="repository">
   <h1 class="repo-name">{{repository.name}}</h1>
   <div class="details">

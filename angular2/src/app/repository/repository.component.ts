@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Github} from "../services/github";
+import {Location} from "@angular/common";
 
 @Component({
     selector: 'repository',
@@ -17,7 +18,7 @@ export class RepositoryComponent implements OnInit
     public userName: string = null;
     public repository: any = null;
 
-    constructor(private route: ActivatedRoute, private github: Github){}
+    constructor(private route: ActivatedRoute, private github: Github, private location: Location){}
 
     public ngOnInit() {
         console.log('hello `Repository` component');
@@ -36,4 +37,9 @@ export class RepositoryComponent implements OnInit
             });
     }
 
+    public onBackClicked() {
+        this.location.back();
+
+        return false;
+    }
 }

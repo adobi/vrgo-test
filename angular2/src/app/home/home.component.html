@@ -1,6 +1,8 @@
 <div>
   <h1>Repository list</h1>
 
+  <pagination [numberOfPages]="lastPage" [currentPage]="currentPage" (currentPageEmitter)="currentPageChanged($event)"></pagination>
+
   <div class="list-group">
     <a *ngFor="let item of repositories" [routerLink]="['/repository', userName, item.name]" class="list-group-item">{{item.name}}</a>
   </div>

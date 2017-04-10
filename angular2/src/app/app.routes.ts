@@ -5,8 +5,8 @@ import { NoContentComponent } from './no-content';
 import {RepositoryComponent} from "./repository/repository.component";
 
 export const ROUTES: Routes = [
-  { path: '',      component: HomeComponent },
-  { path: 'home',  component: HomeComponent },
+  { path: '',      component: HomeComponent},
+  { path: 'repositories/:page',  component: HomeComponent, pathMatch: 'prefix' },
   { path: 'repository/:user/:repo',  component: RepositoryComponent },
   { path: '**',    component: NoContentComponent },
 ];

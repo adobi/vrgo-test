@@ -3,12 +3,15 @@ import {
   OnInit
 } from '@angular/core';
 
-import { AppState } from '../app.service';
 import {Github} from "../services/github";
+import {PaginationComponent} from "../pagination/pagination.component";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'home',
   providers: [
+      PaginationComponent
   ],
   styleUrls: [ './home.component.css' ],
   templateUrl: './home.component.html'
@@ -20,22 +23,39 @@ export class HomeComponent implements OnInit {
   public currentPage = 1;
   public userName = 'addyosmani';
   constructor(
-    public appState: AppState,
-    public github: Github
-  ) {}
+    private github: Github,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {
+    console.log('constructor');
+  }
 
   public ngOnInit() {
     console.log('hello `Home` component');
 
-    this.getUserRepos();
+    let page = +this.route.snapshot.params['page'];
+console.log(page)
+    if (page) {
+      this.currentPage = page;
+    }
+    this.getUserRepos(this.userName, this.currentPage);
   }
 
-  protected getUserRepos()
+  protected getUserRepos(userName: string, currentPage: number)
   {
-    this.github.getUserRepos(this.userName, this.currentPage).then((response: any) => {
+    this.repositories = [];
+    this.github.getUserRepos(userName, currentPage).then((response: any) => {
       this.repositories = response;
       this.lastPage = this.github.lastPage;
     });
+  }
 
+  public currentPageChanged(event)
+  {
+    console.log("Home current page changed", event);
+    this.getUserRepos(this.userName, event);
+
+    this.router.navigate(['repositories', event]);
   }
 }

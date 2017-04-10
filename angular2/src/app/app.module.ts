@@ -31,6 +31,7 @@ import { APP_SERVICES } from './services/services';
 import '../styles/styles.scss';
 import {RepositoryComponent} from "./repository/repository.component";
 import {APP_MODELS} from "./models/models";
+import {PaginationComponent} from "./pagination/pagination.component";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -53,6 +54,7 @@ type StoreType = {
     AppComponent,
     HomeComponent,
     RepositoryComponent,
+    PaginationComponent,
     NoContentComponent,
   ],
   imports: [ // import Angular's modules

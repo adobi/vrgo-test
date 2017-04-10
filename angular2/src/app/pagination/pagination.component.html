@@ -1,0 +1,9 @@
+<nav>
+  <ul class="pagination">
+    <li><a href="#" *ngIf="numberOfPages > 0 && currentPage>1" (click)="onPageClicked(currentPage-1)">Prev</a></li>
+    <li *ngFor="let item of createRange(numberOfPages)" [ngClass]="{active: (item===currentPage)}">
+      <a href="#" (click)="onPageClicked(item)">{{item}}</a>
+    </li>
+    <li><a href="#" *ngIf="currentPage<numberOfPages" (click)="onPageClicked(currentPage+1)">Next</a></li>
+  </ul>
+</nav>
