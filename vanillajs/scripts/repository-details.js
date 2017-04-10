@@ -4,9 +4,8 @@ import App from './app';
 
 class RepositoryDetails
 {
-  constructor(rootElement)
+  constructor()
   {
-    this.rootElement = rootElement;
     this.bindEvents();
   }
 
@@ -21,12 +20,12 @@ class RepositoryDetails
       </div>
     `;
 
-    this.rootElement.innerHTML = template;
+    RepositoryDetails.rootElement.innerHTML = template;
   }
 
   bindEvents()
   {
-    let el = this.rootElement;
+    let el = RepositoryDetails.rootElement;
 
     el.addEventListener('click', (e) => {
       let el = e.target;

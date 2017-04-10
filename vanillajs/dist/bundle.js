@@ -128,19 +128,74 @@ var _utils = __webpack_require__(0);
 
 var _utils2 = _interopRequireDefault(_utils);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var App = function () {
+  function App(rootElement) {
+    _classCallCheck(this, App);
+
+    this.rootElement = rootElement;
+
+    App.repositoryListPage = _utils2.default.find('#js-repository-list-page');
+    App.repositoryDetailsPage = _utils2.default.find('#js-repository-details-page');
+  }
+
+  _createClass(App, [{
+    key: 'run',
+    value: function run(repositoryList) {
+      repositoryList.fetchPage(1);
+    }
+  }], [{
+    key: 'showPage',
+    value: function showPage(page) {
+      switch (page) {
+        case 'repo-list':
+        case 'repo-details':
+          _utils2.default.toggleClass(App.repositoryListPage, 'hide');
+          _utils2.default.toggleClass(App.repositoryDetailsPage, 'hide');
+
+          break;
+      }
+    }
+  }]);
+
+  return App;
+}();
+
+exports.default = App;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = __webpack_require__(0);
+
+var _utils2 = _interopRequireDefault(_utils);
+
 var _githubApi = __webpack_require__(6);
 
 var _githubApi2 = _interopRequireDefault(_githubApi);
 
-var _pager = __webpack_require__(2);
+var _pager = __webpack_require__(3);
 
 var _pager2 = _interopRequireDefault(_pager);
 
-var _app = __webpack_require__(3);
+var _app = __webpack_require__(1);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _repositoryDetails = __webpack_require__(16);
+var _repositoryDetails = __webpack_require__(7);
 
 var _repositoryDetails2 = _interopRequireDefault(_repositoryDetails);
 
@@ -149,15 +204,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var RepositoryList = function () {
-  function RepositoryList(rootElement, username) {
+  function RepositoryList(username) {
     _classCallCheck(this, RepositoryList);
 
-    RepositoryList.rootElement = rootElement;
     this.username = username;
 
     this.githubApi = new _githubApi2.default();
 
-    this.repositoryDetails = new _repositoryDetails2.default(_utils2.default.find('#js-repository-details-page'));
+    this.repositoryDetails = new _repositoryDetails2.default();
+    this.pager = new _pager2.default();
 
     this.repositories = [];
     this.bindEvents();
@@ -273,7 +328,7 @@ var RepositoryList = function () {
 exports.default = RepositoryList;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -289,7 +344,7 @@ var _utils = __webpack_require__(0);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _repositoryList = __webpack_require__(1);
+var _repositoryList = __webpack_require__(2);
 
 var _repositoryList2 = _interopRequireDefault(_repositoryList);
 
@@ -301,7 +356,6 @@ var Pager = function () {
   function Pager() {
     _classCallCheck(this, Pager);
 
-    Pager.rootElement = _utils2.default.find('#js-pagination');
     this._last = 0;
     this._current = 1;
     this.isRendered = false;
@@ -396,58 +450,6 @@ var Pager = function () {
 exports.default = Pager;
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utils = __webpack_require__(0);
-
-var _utils2 = _interopRequireDefault(_utils);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var App = function () {
-  function App(rootElement) {
-    _classCallCheck(this, App);
-
-    this.rootElement = rootElement;
-  }
-
-  _createClass(App, [{
-    key: 'run',
-    value: function run(repositoryList) {
-      repositoryList.fetchPage(1);
-    }
-  }], [{
-    key: 'showPage',
-    value: function showPage(page) {
-      switch (page) {
-        case 'repo-list':
-        case 'repo-details':
-          _utils2.default.toggleClass(_utils2.default.find('#js-repository-list-page'), 'hide');
-          _utils2.default.toggleClass(_utils2.default.find('#js-repository-details-page'), 'hide');
-
-          break;
-      }
-    }
-  }]);
-
-  return App;
-}();
-
-exports.default = App;
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -460,17 +462,21 @@ exports.default = App;
 "use strict";
 
 
-var _app = __webpack_require__(3);
+var _app = __webpack_require__(1);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _repositoryList = __webpack_require__(1);
+var _repositoryList = __webpack_require__(2);
 
 var _repositoryList2 = _interopRequireDefault(_repositoryList);
 
-var _pager = __webpack_require__(2);
+var _pager = __webpack_require__(3);
 
 var _pager2 = _interopRequireDefault(_pager);
+
+var _repositoryDetails = __webpack_require__(7);
+
+var _repositoryDetails2 = _interopRequireDefault(_repositoryDetails);
 
 var _utils = __webpack_require__(0);
 
@@ -482,8 +488,11 @@ __webpack_require__(4);
 
 var app = new _app2.default(_utils2.default.find('#js-app'));
 
-var repositoryList = new _repositoryList2.default(_utils2.default.find('#js-repository-list'), 'addyosmani');
-var pager = new _pager2.default();
+_repositoryList2.default.rootElement = _utils2.default.find('#js-repository-list');
+_pager2.default.rootElement = _utils2.default.find('#js-pagination');
+_repositoryDetails2.default.rootElement = _utils2.default.find('#js-repository-details-page');
+
+var repositoryList = new _repositoryList2.default('addyosmani');
 
 app.run(repositoryList);
 
@@ -540,16 +549,7 @@ var GithubApi = function () {
 exports.default = GithubApi;
 
 /***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -565,11 +565,11 @@ var _utils = __webpack_require__(0);
 
 var _utils2 = _interopRequireDefault(_utils);
 
-var _repositoryList = __webpack_require__(1);
+var _repositoryList = __webpack_require__(2);
 
 var _repositoryList2 = _interopRequireDefault(_repositoryList);
 
-var _app = __webpack_require__(3);
+var _app = __webpack_require__(1);
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -578,10 +578,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var RepositoryDetails = function () {
-  function RepositoryDetails(rootElement) {
+  function RepositoryDetails() {
     _classCallCheck(this, RepositoryDetails);
 
-    this.rootElement = rootElement;
     this.bindEvents();
   }
 
@@ -590,14 +589,14 @@ var RepositoryDetails = function () {
     value: function render(repo) {
       var template = '<nav class="nav-back"><a href="#" class="btn" data-src="js-back-to-list">Back</a></nav>\n      <div class="repo-details">\n        <h1 class="repo-name">' + repo.name + '</h1>\n        <div class="details"><span class="label">Stars: ' + repo.stargazers_count + '</span> <span class="label">Forks: ' + repo.forks_count + '</span> <span class="label">Last update: ' + repo.updated_at.split('T')[0] + '</span></div>\n        <p>' + repo.description + '</p>\n        <div class="actions"><a class="btn" href="' + repo.html_url + '" target="_blank">View on github</a></div>\n      </div>\n    ';
 
-      this.rootElement.innerHTML = template;
+      RepositoryDetails.rootElement.innerHTML = template;
     }
   }, {
     key: 'bindEvents',
     value: function bindEvents() {
       var _this = this;
 
-      var el = this.rootElement;
+      var el = RepositoryDetails.rootElement;
 
       el.addEventListener('click', function (e) {
         var el = e.target;

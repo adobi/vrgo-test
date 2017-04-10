@@ -5,12 +5,15 @@ class App
   constructor(rootElement)
   {
     this.rootElement = rootElement;
+
+    App.repositoryListPage = $.find('#js-repository-list-page');
+    App.repositoryDetailsPage = $.find('#js-repository-details-page');
   }
 
 
   run(repositoryList)
   {
-    repositoryList.fetchPage(1)
+    repositoryList.fetchPage(1);
   }
 
   static showPage(page)
@@ -18,8 +21,8 @@ class App
     switch (page) {
       case 'repo-list':
       case 'repo-details':
-        $.toggleClass($.find('#js-repository-list-page'), 'hide')
-        $.toggleClass($.find('#js-repository-details-page'), 'hide')
+        $.toggleClass(App.repositoryListPage, 'hide');
+        $.toggleClass(App.repositoryDetailsPage, 'hide');
 
         break;
     }

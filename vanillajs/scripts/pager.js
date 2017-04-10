@@ -5,7 +5,6 @@ class Pager
 {
   constructor()
   {
-    Pager.rootElement = $.find('#js-pagination');
     this._last = 0;
     this._current = 1;
     this.isRendered = false;

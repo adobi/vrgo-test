@@ -6,14 +6,14 @@ import RepositoryDetails from './repository-details';
 
 class RepositoryList
 {
-  constructor(rootElement, username)
+  constructor(username)
   {
-    RepositoryList.rootElement = rootElement;
     this.username = username;
 
     this.githubApi = new GithubApi();
 
-    this.repositoryDetails =  new RepositoryDetails($.find('#js-repository-details-page'));
+    this.repositoryDetails =  new RepositoryDetails();
+    this.pager = new Pager();
 
     this.repositories = [];
     this.bindEvents();
