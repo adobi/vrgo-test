@@ -1,1 +1,11 @@
-<h1>Repository {{repositoryId}}</h1>
+<nav class="nav-back"><a [routerLink]="['/home']" class="btn">Back</a></nav>
+<div class="repo-details" *ngIf="repository">
+  <h1 class="repo-name">{{repository.name}}</h1>
+  <div class="details">
+    <span class="label">Stars: {{repository.stargazers_count}}</span>
+    <span class="label">Forks: {{repository.forks_count}}</span>
+    <span class="label">Last update: {{repository.updated_at.split('T')[0]}}</span>
+  </div>
+  <p>{{repository.description}}</p>
+  <div class="actions"><a class="btn" href="{{repository.html_url}}" target="_blank">View on github</a></div>
+</div>

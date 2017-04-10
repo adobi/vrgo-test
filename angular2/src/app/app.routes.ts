@@ -7,6 +7,6 @@ import {RepositoryComponent} from "./repository/repository.component";
 export const ROUTES: Routes = [
   { path: '',      component: HomeComponent },
   { path: 'home',  component: HomeComponent },
-  { path: 'repository/:id',  component: RepositoryComponent },
+  { path: 'repository/:user/:repo',  component: RepositoryComponent },
   { path: '**',    component: NoContentComponent },
 ];

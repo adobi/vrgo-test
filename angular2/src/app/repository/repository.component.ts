@@ -3,6 +3,7 @@ import {
     OnInit
 } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Github} from "../services/github";
 
 @Component({
     selector: 'repository',
@@ -12,15 +13,27 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class RepositoryComponent implements OnInit
 {
-    public repositoryId: string = null;
+    public repositoryName: string = null;
+    public userName: string = null;
+    public repository: any = null;
 
-    constructor(private route: ActivatedRoute){}
+    constructor(private route: ActivatedRoute, private github: Github){}
 
     public ngOnInit() {
         console.log('hello `Repository` component');
 
-        console.log(this.route.snapshot);
-        this.repositoryId = this.route.snapshot.params['id'];
+        this.repositoryName = this.route.snapshot.params['repo'];
+        this.userName = this.route.snapshot.params['user'];
+
+        this.getRepository();
+    }
+
+    public getRepository()
+    {
+        this.github.getRepository(this.userName, this.repositoryName)
+            .then((response: any) => {
+                this.repository = response;
+            });
     }
 
 }

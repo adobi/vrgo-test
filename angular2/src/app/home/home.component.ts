@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
 
   public repositories = [];
   public lastPage = 0;
+  public currentPage = 1;
+  public userName = 'addyosmani';
   constructor(
     public appState: AppState,
     public github: Github
@@ -30,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   protected getUserRepos()
   {
-    this.github.getUserRepos('adobi', 1).then((response: any) => {
+    this.github.getUserRepos(this.userName, this.currentPage).then((response: any) => {
       this.repositories = response;
       this.lastPage = this.github.lastPage;
     });

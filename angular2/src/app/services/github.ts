@@ -8,8 +8,8 @@ export class Github
 
     public getUserRepos(username, currentPage)
     {
-        let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
-
+        // let endpoint = `${this.apiBase}/users/${username}/repos?page=${currentPage}`;
+        let endpoint = '../data.json';
         return fetch(endpoint)
             .then((response) => {
                 this._lastPage = this.getLastPage(response.headers.get('Link'));
@@ -31,4 +31,10 @@ export class Github
         return this._lastPage;
     }
 
+    public getRepository(userName: string, repositoryName: string)
+    {
+        const endpoint = `${this.apiBase}/repos/${userName}/${repositoryName}`;
+
+        return fetch(endpoint).then((response: any) => response.json() );
+    }
 }
